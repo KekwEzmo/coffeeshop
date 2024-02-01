@@ -1,0 +1,51 @@
+*{
+    padding: 0;
+}
+
+.navList {
+    width: 100%;
+    height: 100%;
+    list-style-type: none;
+    display: flex;
+    align-items: center; 
+    justify-content: space-between; 
+}
+
+.navList li {
+    height: 100%;
+}
+
+li {
+    margin: 50px;
+    margin-right: 50px;
+}
+
+.navList h1 {
+    text-decoration: none;
+    font-size: xx-large;
+    font-weight: bold;
+    color: #fff;
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+    letter-spacing: 2px;
+    font-size: 45px;
+}
+
+.home {
+    flex: 1;
+}
+
+.centered {
+    max-width: 700px;
+    display: flex;
+    align-items: center; 
+}
+
+.navBar {
+    width: 100%;
+    height: 100px;
+    background-color: #89b4d4;
+    border-bottom: 1px solid #000;
+    display: flex;
+    align-items: center;
+}
+

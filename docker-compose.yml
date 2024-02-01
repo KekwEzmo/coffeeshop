@@ -1,0 +1,32 @@
+version: '3.9'
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile_Backend
+    restart: always
+    hostname: fastapi
+    environment:
+      DB_NAME: ${DB_NAME}
+      DB_USER: ${DB_USER}
+      DB_PW: ${DB_PW}
+  
+  frontend:
+    build: 
+      context: ./coffee-shop
+      dockerfile: Dockerfile_Frontend
+    restart: always
+    command: sh -c "sleep 5 && nginx -g 'daemon off;'"
+    ports:
+      - "80:80"
+  
+  db:
+    image: mariadb:latest
+    hostname: db
+    restart: always
+    environment:
+      MARIADB_ROOT_PASSWORD: 2U3Qps4cDZHJJT8LgnJR
+      MARIADB_DATABASE: ${DB_NAME}
+      MARIADB_USER: ${DB_USER}
+      MARIADB_PASSWORD: ${DB_PW}
