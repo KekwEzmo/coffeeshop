@@ -1,4 +1,4 @@
-*{
+* {
     padding: 0;
 }
 
@@ -7,8 +7,8 @@
     height: 100%;
     list-style-type: none;
     display: flex;
-    align-items: center; 
-    justify-content: space-between; 
+    align-items: center;
+    justify-content: space-between;
 }
 
 .navList li {
@@ -37,15 +37,45 @@ li {
 .centered {
     max-width: 700px;
     display: flex;
-    align-items: center; 
+    align-items: center;
 }
 
 .navBar {
     width: 100%;
     height: 100px;
-    background-color: #89b4d4;
+    background-color: #A4DAFF;
     border-bottom: 1px solid #000;
     display: flex;
     align-items: center;
 }
 
+.cartIcon {
+    width: 70px;
+    height: 70px;
+    margin-right: 50px;
+    position: relative;
+    background-color: #fff;
+    border-radius: 50%;
+}
+
+.cartIcon img {
+    position: relative;
+    left: 15px;
+    top: 15px;
+    width: 40px;
+}
+
+.dot {
+    position: absolute;
+    bottom: -5px;
+    right: -5px;
+    background-color: pink;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 10px;
+    color: #fff;
+}

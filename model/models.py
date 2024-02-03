@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Column, Integer, String, Float
 from sqlalchemy.ext.declarative import declarative_base
 
 Base = declarative_base()
@@ -9,8 +9,9 @@ class Product(Base):
 
     id = Column(Integer, primary_key=True)
     name = Column(String(length=255))
+    description = Column(String(length=2000))
     amount = Column(Integer)
-    price = Column(Integer)
+    price = Column(Float)
 
     def __repr__(self):
-        return f'Product(id={self.id}, title={self.name}, amount={self.amount}, price={self.price})'
+        return f'Product(id={self.id}, title={self.name}, description={self.description}, amount={self.amount}, price={self.price})'

@@ -4,8 +4,8 @@
 
 .footer {
     width: 100%;
-    min-height: 200px;
-    background-color: #89b4d4;
+    min-height: 100px;
+    background-color: #A4DAFF;
     display: flex;
     flex-wrap: wrap;
 }
