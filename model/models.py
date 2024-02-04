@@ -7,11 +7,10 @@ class Product(Base):
 
     __tablename__ = "products"
 
-    id = Column(Integer, primary_key=True)
-    name = Column(String(length=255))
+    name = Column(String(length=255), primary_key=True)
     description = Column(String(length=2000))
     amount = Column(Integer)
     price = Column(Float)
 
     def __repr__(self):
-        return f'Product(id={self.id}, title={self.name}, description={self.description}, amount={self.amount}, price={self.price})'
+        return f'Product(name={self.name}, description={self.description}, amount={self.amount}, price={self.price})'

@@ -1,0 +1,40 @@
+table {
+    position: relative;
+    left: 10%;
+    width: 80%;
+    border-collapse: collapse;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+thead {
+    background-color: #f2f2f2;
+}
+
+th,
+td {
+    padding: 12px;
+    text-align: left;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+tr:hover {
+    background-color: #ddd;
+}
+
+.endPrice {
+    border-top: 1px solid #000;
+}
+
+.downloadBtn {
+    background-color: #A4DAFF;
+    border: 1px solid #000;
+    border-radius: 2.5px;
+    padding: 5px;
+    font-size: 15px;
+    cursor: pointer;
+}

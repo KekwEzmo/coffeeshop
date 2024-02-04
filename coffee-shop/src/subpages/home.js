@@ -1,9 +1,11 @@
 import "./home.css";
 import coffeeImg from '../assets/coffee1.avif'; 
 import React, { useState, useEffect } from 'react';
+import { useCart } from '../cart';
 
 function Home() {
 
+    const { addToCart } = useCart();
     const [products, setProducts] = useState([]);
     const [selectedProduct, setSelectedProduct] = useState(null);
     const [quantity, setQuantity] = useState(1);
@@ -16,15 +18,13 @@ function Home() {
     }, []);
   
     const addToBasket = () => {
-        // Validate quantity
         if (quantity <= 0 && quantity > 100) {
           alert('Please enter a valid quantity.');
           return;
         }
-    
-        console.log('Added to basket:', selectedProduct, 'Quantity:', quantity);
-        setSelectedProduct(null);
+
         setQuantity(1);
+        addToCart({ name: selectedProduct.name, price: selectedProduct.price, quantity: quantity });
       };
 
     return(

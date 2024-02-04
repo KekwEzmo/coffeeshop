@@ -9,7 +9,9 @@ function NavBar({ itemsInCart }) {
         <div className="navBar">
             <ul className="navList">
                 <li className="centered">
-                    <h1 href="/" className="home">Coffee-Shop</h1>
+                <Link to="/" style={{ textDecoration: 'none' }}>
+                    <h1 className="home">Coffee-Shop</h1>
+                </Link>
                 </li>
             </ul>
             <div className="cartIcon">

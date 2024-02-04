@@ -2,41 +2,49 @@
 	{
 		"name": "Verlängerter",
 		"description": "A long black coffee made by adding hot water to espresso.",
-		"price": 5.50
+		"price": 5.50,
+		"stock": 999
 	},
 	{
 		"name": "Wiener Melange",
 		"description": "A Viennese specialty coffee similar to a cappuccino, topped with whipped cream and cocoa powder.",
-		"price": 6.30
+		"price": 6.30,
+		"stock": 370
 	},
 	{
 		"name": "Kleiner Brauner",
 		"description": "A small black coffee served with a small amount of milk or cream.",
-		"price": 5.40
+		"price": 5.40,
+		"stock": 288
 	},
 	{
 		"name": "Großer Brauner",
 		"description": "A large black coffee served with a small amount of milk or cream.",
-		"price": 6.10
+		"price": 6.10,
+		"stock": 621
 	},
 	{
 		"name": "Kapuziner",
 		"description": "A coffee with a small amount of milk or cream and topped with whipped cream.",
-		"price": 4.30
+		"price": 4.30,
+		"stock": 723
 	},
 	{
 		"name": "Franziskaner",
 		"description": "A coffee similar to a Kapuziner, but with a larger amount of milk or cream.",
-		"price": 7.20
+		"price": 7.20,
+		"stock": 628
 	},
 	{
 		"name": "Eiskaffee",
 		"description": "A cold coffee drink typically served over ice cream and topped with whipped cream.",
-		"price": 6.20
+		"price": 6.20,
+		"stock": 912
 	},
 	{
 		"name": "Mokka",
 		"description": "A strong coffee made from darkly roasted beans.",
-		"price": 4.90
+		"price": 4.90,
+		"stock": 329
 	}
 ]
