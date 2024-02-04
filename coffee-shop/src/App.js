@@ -18,7 +18,7 @@ function App() {
         <Route exact path="/overview" element={<Overview/>} />
       </Routes>
       <Footer />
-      </CartProvider>
+      </CartProvider> 
     </div>
   );
 }

@@ -52,7 +52,7 @@ function CheckOut() {
                         <td colSpan="3">Total End Price:</td>
                         <td>{totalEndPrice.toFixed(2)}€</td> {/* Display total end price */}
                     </tr>
-                    <button className="downloadBtn" onClick={handleCheckout}>Download PDF</button>
+                    <button className="downloadBtn" onClick={handleCheckout}>Pay & Get Bill</button>
                 </tfoot>
             </table>
         </div>
