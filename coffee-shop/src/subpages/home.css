@@ -10,6 +10,7 @@
     width: 100%;
     min-height: calc(100vh - 198px);
     align-items: center;
+    text-align: center;
 }
 
 .product-container {
