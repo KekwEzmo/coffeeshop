@@ -59,7 +59,7 @@ pydantic==2.6.0
 typing==3.7.4.3
 ```
 
-Connection to database with `SQL-Alchemy`, the credentials are read from env-vars whic hare being passed during docker build. <br/>
+Connection to database with `SQL-Alchemy`, the credentials are read from env-vars which are being passed during docker build. <br/>
 ```py
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
