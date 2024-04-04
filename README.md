@@ -5,7 +5,7 @@
 
 ## Documentation
 
-The application consists of 3 different containers. <br/>
+The application consists of three different containers. <br/>
 ```yml
 version: '3.9'
 
