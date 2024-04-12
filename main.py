@@ -1,4 +1,4 @@
-from fastapi import FastAPI, HTTPException, Request
+from fastapi import FastAPI, HTTPException, Request, Response
 from fastapi.responses import FileResponse
 from model.database import DBSession
 from model import models
@@ -7,7 +7,7 @@ from reportlab.lib.pagesizes import A4
 from reportlab.lib import colors
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, Spacer
-import json
+import json, uuid
 from datetime import datetime
 from schema import CartItem
 from typing import List
@@ -21,6 +21,8 @@ app.add_middleware(
     allow_methods=["GET", "POST", "PUT", "DELETE"],  # Allow the specified HTTP methods
     allow_headers=["*"],  # Allow all headers
 )
+
+sessions = {}
 
 # Function to load stock into db on startup
 def load_stock():
@@ -58,7 +60,7 @@ load_stock()
 
 # API Endpoint for fetching products
 @app.get('/api/products')
-def products():
+async def products():
     db = DBSession()
     
     # Get product information from db
@@ -67,6 +69,39 @@ def products():
 
     db.close()
     return products_data
+
+@app.delete('/api/products')
+async def remove_product(request: Request):
+    cookie = request.cookies.get("SID")
+
+@app.post('/api/products')
+async def add_product(request: Request):
+    cookie = request.cookies.get("SID")
+
+    if cookie:
+        payload = await request.json()
+        product_name = payload.get('name')
+        product_price = payload.get('price')
+        product_quantity = payload.get('quantity')
+
+        if product_price * product_quantity < sessions[cookie]['credits'] - sessions[cookie]['basket_value']:
+            sessions[cookie]['basket_value'] += product_price * product_quantity
+            
+            if product_name not in sessions[cookie]['products']:
+                sessions[cookie]['products'][product_name] = {
+                    "name": product_name,
+                    "quantity": 0,
+                    "price": product_price
+                }
+
+            sessions[cookie]['products'][product_name]["quantity"] += product_quantity
+
+            return {"message": "Product added to shopping basket"}
+
+        else:
+            return {"message": 'you are too poor!!!!!!!!!!!!!!!!!!!!!!!!!!!!'}
+    else:
+        return {"message": "Cookie not found"}
 
 
 # API Endpoint to get current stock
@@ -82,28 +117,45 @@ async def checkout():
     return products_data
 
 
+@app.get('/api/session')
+async def session(response: Response):
+    cookie = str(uuid.uuid4())
+    sessions[cookie] = {}
+    sessions[cookie]['credits'] = 50
+    sessions[cookie]['basket_value'] = 0
+    sessions[cookie]['products'] = {}
+    response.set_cookie(key='SID', value=cookie)
+
+    return { 'cookie': cookie, 'message': 'Cookie returned!' }
+
+@app.get('/api/shopping_basket')
+async def shopping_basket(request: Request):
+    cookie = request.cookies.get("SID")
+
+    return [{ "name": sessions[cookie]['products'][product]['name'], "quantity": sessions[cookie]['products'][product]['quantity'], "price": sessions[cookie]['products'][product]['price']} for product in sessions[cookie]['products']]
+
+@app.get('/api/credits')
+async def creds(request: Request):
+    cookie = request.cookies.get("SID")
+
+    return { "credits": sessions[cookie]['credits'] }
+
 # API Endpoint to generate a bill
 @app.post('/api/checkout')
 async def checkout(request: Request):
-    # Parse JSON data from request body
-    payload = await request.json()
-    cart_items_data = payload.get('cartItems', [])
-
-    # Validate cart items
-    if not cart_items_data:
-        raise HTTPException(status_code=400, detail="Cart items not provided")
+    cookie = request.cookies.get("SID")
 
     # Convert cart item data into CartItem objects
-    cart_items = [CartItem(**item_data) for item_data in cart_items_data]
+    cart_items = [{ "name": sessions[cookie]['products'][product]['name'], "amount": sessions[cookie]['products'][product]['quantity'], "price": sessions[cookie]['products'][product]['price']} for product in sessions[cookie]['products']]
 
     db = DBSession()
 
     for item in cart_items:
-        entry = db.query(models.Product).filter(models.Product.name == item.name).first()
+        entry = db.query(models.Product).filter(models.Product.name == item['name']).first()
         
         if entry:
-            if entry.amount >= item.quantity:
-                entry.amount = entry.amount - item.quantity
+            if entry.amount >= item['amount']:
+                entry.amount = entry.amount - item['amount']
             else:
                 raise HTTPException(status_code=403, detail="Not enough in stock!")
 
@@ -113,6 +165,10 @@ async def checkout(request: Request):
     # Generate PDF
     pdf_output_file = "bill.pdf"
     generate_pdf(cart_items, pdf_output_file)
+
+    sessions[cookie]['products'] = {}
+    sessions[cookie]['credits'] = sessions[cookie]['credits'] - sessions[cookie]['basket_value']
+    sessions[cookie]['basket_value'] = 0
 
     return FileResponse(pdf_output_file, media_type="application/pdf", filename="bill.pdf")
 
@@ -125,7 +181,6 @@ def generate_pdf(cart_items: List[CartItem], output_file: str):
     styles = getSampleStyleSheet()
     title_style = styles['Title']
     header_style = ParagraphStyle(name='Header', fontSize=12, textColor=colors.black, alignment=1) # Center alignment
-    row_style = ParagraphStyle(name='Row', fontSize=10, textColor=colors.black)
 
     # Table Columns/Headers
     data = [["Name", "Price", "Quantity", "Subtotal"]]
@@ -133,9 +188,9 @@ def generate_pdf(cart_items: List[CartItem], output_file: str):
     # Add Cart-items
     total_end_price = 0
     for item in cart_items:
-        subtotal = item.price * item.quantity
+        subtotal = item['price'] * item['amount']
         total_end_price += subtotal
-        data.append([item.name, f"{item.price:.2f} €", str(item.quantity), f"{subtotal:.2f} €"])
+        data.append([item['name'], f"{item['price']:.2f} €", str(item['amount']), f"{subtotal:.2f} €"])
 
     data.append(["Total End Price:", "", "", f"{total_end_price:.2f} €"])
 
@@ -159,3 +214,4 @@ def generate_pdf(cart_items: List[CartItem], output_file: str):
     space = Spacer(1, 12)
 
     doc.build([title, Spacer(1, 36), datetime_paragraph, space, table]) 
+

@@ -1,0 +1,19 @@
+.cookies {
+    border-radius: 5px;
+    text-align: center;
+    position: fixed;
+    width: 250px;
+    height: 180px;
+    visibility: visible;
+    left: calc(100vw - 300px);
+    top: calc(100vh - 200px);
+    background-color: #ccc;
+    border: 1px solid #000;
+}
+
+.cookies button {
+    padding: 5px;
+    border: 1px solid #000;
+    border-radius: 5px;
+    cursor: pointer;
+}
