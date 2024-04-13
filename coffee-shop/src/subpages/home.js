@@ -3,6 +3,7 @@ import coffeeImg from '../assets/coffee1.avif';
 import React, { useState, useEffect } from 'react';
 
 function Home() {
+    const [reqError, setReqError] = useState('');
     const [products, setProducts] = useState([]);
     const [selectedProduct, setSelectedProduct] = useState(null);
     const [quantity, setQuantity] = useState(1);
@@ -35,7 +36,7 @@ function Home() {
             }),
         })
         .then(response => response.json())
-        .then(data => data.message !== 'you are too poor!!!!!!!!!!!!!!!!!!!!!!!!!!!!' ? setSelectedProduct(null) : alert("Can't afford more products!"))
+        .then(data => data.message !== 'you are too poor!!!!!!!!!!!!!!!!!!!!!!!!!!!!' ? setSelectedProduct(null) : setReqError(data.message))
         .catch(error => console.error('Error adding product:', error));
     };
 
@@ -66,7 +67,8 @@ function Home() {
                             onChange={e => setQuantity(Math.max(1, parseInt(e.target.value)))} // Ensure minimum value is 1
                         />
                         <button onClick={addToBasket}>Add to Basket</button>
-                        <button onClick={() => setSelectedProduct(null)}>Close</button>
+                        <button onClick={() => { setSelectedProduct(null); setReqError(''); }}>Close</button>
+                        <h2 style={{ color: '#f00' }}>{reqError}</h2>
                     </div>
                 </div>
             )}

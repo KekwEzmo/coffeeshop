@@ -70,9 +70,16 @@ async def products():
     db.close()
     return products_data
 
+
 @app.delete('/api/products')
 async def remove_product(request: Request):
     cookie = request.cookies.get("SID")
+
+    payload = await request.json()
+    product_name = payload.get('name')
+
+    del sessions[cookie]['products'][product_name]
+
 
 @app.post('/api/products')
 async def add_product(request: Request):
@@ -99,7 +106,7 @@ async def add_product(request: Request):
             return {"message": "Product added to shopping basket"}
 
         else:
-            return {"message": 'you are too poor!!!!!!!!!!!!!!!!!!!!!!!!!!!!'}
+            return {"message": 'Insufficient Funds!'}
     else:
         return {"message": "Cookie not found"}
 
