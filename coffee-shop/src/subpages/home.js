@@ -36,7 +36,7 @@ function Home() {
             }),
         })
         .then(response => response.json())
-        .then(data => data.message !== 'you are too poor!!!!!!!!!!!!!!!!!!!!!!!!!!!!' ? setSelectedProduct(null) : setReqError(data.message))
+        .then(data => data.message != 'Insufficient Funds!' ? setSelectedProduct(null) : setReqError(data.message))
         .catch(error => console.error('Error adding product:', error));
     };
 
