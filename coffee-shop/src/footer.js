@@ -1,5 +1,6 @@
 import "./footer.css";
 
+// this footer is very important so we have a footer
 function Footer() {
 
     return(
