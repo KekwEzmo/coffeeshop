@@ -3,6 +3,7 @@ import { useCookies } from 'react-cookie';
 import './cookies.css';
 
 // mhhh cookies are very good
+// indeed
 export const Cookies = () => {
 
   const [cookie, setCookie] = useCookies(['SID']);
