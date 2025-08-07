@@ -6,21 +6,20 @@ import Home from './subpages/home';
 import CheckOut from './subpages/checkout';
 import Overview from './subpages/overview';
 import NotFoundPage from './error_404_page'; 
-import { CartProvider } from './cart';
+import { Cookies } from './cookies';
 
 function App() {
   return (
     <div className="App">
-      <CartProvider>
-      <NavBar />
+      <NavBar/>
       <Routes>
         <Route exact path="/" element={<Home/>} />
         <Route exact path="/checkout" element={<CheckOut/>} />
         <Route exact path="/overview" element={<Overview/>} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
-      <Footer />
-      </CartProvider>
+      <Cookies/>
+      <Footer/>
     </div>
   );
 }

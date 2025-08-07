@@ -1,3 +1,4 @@
+# This is a Dockerfile
 FROM node:14 as build-stage
 
 WORKDIR /app
